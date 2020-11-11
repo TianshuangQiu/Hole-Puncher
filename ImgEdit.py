@@ -12,8 +12,7 @@ b, g, r, a = 255, 255, 255, 0
 
 # Use cv2.FONT_HERSHEY_XXX to write English.
 
-
-def get_img():
+def put_text(text):
     my_path = os.path.dirname(__file__)
     fontpath = my_path + "/fonts/English.ttf"  # <== 这里是宋体路径
     img1 = np.zeros((height, width, 3), np.uint8)
@@ -21,24 +20,32 @@ def get_img():
 
     img_pil = Image.fromarray(img)
     draw = ImageDraw.Draw(img_pil)
-    draw.text((20, 25),  "你听懂了吗", stroke_height=1, font=font, fill=(b, g, r))
+    draw.text((30, 10), text, stroke_height=1, font=font, fill=(b, g, r))
     img1 = np.array(img_pil)
     return img1
 
+def draw_circle(input):
+    tmp = input
+    for x in range (0,10):
+        w = random.randint(0,width)
+        h = random.randint(0,height)
+        print(h,w)
+        tmp = cv2.circle(img, (w,h), 30, (255, 255, 255), -1)
 
-img = get_img()
+    return tmp
 
-count = 0
-for x in range (0,height):
-    for y in range (0,width):
-        curr_val = img[x][y]
-        rand = random.randint(0,100)
-        if rand<20:
-            img[x][y] = [255,255,255]
-            count+=1
-        if rand>80:
-            img[x][y] = [0, 0, 0]
-            count += 1
 
-# Display
+
+def scatter():
+    count = 0
+    for x in range (0,height):
+        for y in range (0,width):
+            curr_val = img[x][y]
+            rand = random.randint(0,100)
+            if rand>20:
+                img[x][y] = [0, 0, 0]
+
+img = put_text("hello, this is a test sentence")
+#img = draw_circle(img)
+scatter()
 cv2.imwrite("res.png", img)
