@@ -41,101 +41,30 @@ def scatter(threshold):
             if rand>threshold:
                 img[x][y] = [0, 0, 0]
 
-corpus = """以上
-以下
-以为
-以便
-以免
-以前
-以及
-以后
-以外
-以後
-以来
-以至
-以至于
-以致
-们
-任
-任何
-任凭
-任务
-企图
-伟大
-似乎
-似的
-但
-但是
-何
-何况
-何处
-何时
-作为
-你
-你们
-你的
-使得
-使用
-例如
-依
-依照
-依靠
-促进
-保持
-俺
-俺们
-倘
-倘使
-倘或
-倘然
-倘若
-假使
-假如
-假若
-做到
-像
-允许
-充分
-先后
-先後
-先生
-全部
-全面
-兮
-共同
-关于
-其
-其一
-其中
-其二
-其他
-其余
-其它
-其实
-其次
-具体
-具体地说
-具体说来
-"""
+corpus =[]
+with open ("Corpus_EN", "r") as myfile:
+    corpus=myfile.readlines()
 words = []
-buffer = []
+
 string = ""
 for c in corpus:
-    if c is "\t" or c is "\n":
-        if len(buffer) is not 0:
-            words.append(string.join(buffer))
-        buffer = []
+    buffer = []
+    if "\t" in c:
+        buffer = c.split("\t")
+        for item in buffer:
+            words.append(item)
         continue
-    buffer.append(c)
+    words.append(c)
 
-for var in range (0,15):
+for var in range (0,5):
     word = random.choice(words)
     img = put_text(word)
-    num = 10
-    draw_circle(img, num)
+    num = 5
+    #draw_circle(img, num)
+    scatter(num)
     img = (255 - img)
     print(word)
-    filename ="pic/" + str(num) + word +".png"
+    filename ="pics_scatter/" + str(num) + word +".png"
     cv2.imwrite(filename, img)
     img = np.zeros((height, width, 3), np.uint8)
 
