@@ -6,7 +6,7 @@ import os
 
 # Make canvas and set the color
 height = 100
-width = 400
+width = 1000
 img = np.zeros((height, width, 3), np.uint8)
 b, g, r, a = 255, 255, 255, 0
 
@@ -42,7 +42,7 @@ def scatter(threshold):
                 img[x][y] = [0, 0, 0]
 
 corpus =[]
-with open ("Corpus_EN", "r") as myfile:
+with open ("Corpus_CN", "r") as myfile:
     corpus=myfile.readlines()
 words = []
 
@@ -55,11 +55,11 @@ for c in corpus:
             words.append(item)
         continue
     words.append(c)
-
-for var in range (0,5):
+"""
+for var in range (1,2):
     word = random.choice(words)
     img = put_text(word)
-    num = 5
+    num = var
     #draw_circle(img, num)
     scatter(num)
     img = (255 - img)
@@ -67,4 +67,12 @@ for var in range (0,5):
     filename ="pics_scatter/" + str(num) + word +".png"
     cv2.imwrite(filename, img)
     img = np.zeros((height, width, 3), np.uint8)
-
+"""
+phrase = "樱桃向下一格"
+num = 3
+img = put_text(phrase)
+scatter(num)
+img = (255 - img)
+print(phrase)
+filename ="phrases_scatter/" + str(num) + phrase +".png"
+cv2.imwrite(filename, img)
